@@ -3,7 +3,7 @@ var path = require("path");
 var mongojs = require("mongojs");
 var request = require('request');
 
-var cx = process.env.CX;
+var cx = process.env.CX
 var apikey = process.env.APIKEY;
 var databaseUrl = process.env.MLAB_URI || "image-search";
 var db = mongojs(databaseUrl, ["urls"]);
@@ -18,7 +18,7 @@ app.get("/api/latest", function (req, res) {
     res.json([
         {
             term: "Stuff",
-            when: "How do I know"
+            when: "How do I know",
         },
         {
             term: "More stuff",
@@ -29,8 +29,9 @@ app.get("/api/latest", function (req, res) {
 
 app.get("/api/imagesearch/:query", function (req, res) {
     var query = req.params.query;
-    var offset = req.query.offset == null ? 10 : req.query.offset;
-    var url = "https://www.googleapis.com/customsearch/v1?searchType=image&key=" + apikey + "&cx=" + cx + "&q=" + query;
+    var offset = req.query.offset;
+
+    var url = "https://www.googleapis.com/customsearch/v1?searchType=image&num=" + offset +"&key=" + apikey + "&cx=" + cx + "&q=" + query;
 
     request(url, { json: true }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
