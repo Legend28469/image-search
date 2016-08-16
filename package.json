@@ -9,6 +9,8 @@
   "author": "Johnathan Brown <johnathaneb@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "mongojs": "^2.4.0",
+    "request": "^2.74.0"
   }
 }
