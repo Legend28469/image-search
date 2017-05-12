@@ -4,8 +4,8 @@ var mongojs = require("mongojs");
 var request = require('request');
 var moment = require("moment");
 
-var cx = process.env.CX;
-var apikey = process.env.APIKEY;
+var cx = process.env.CX || "017574431064325300682:usfxzir0rfu";
+var apikey = process.env.APIKEY || "AIzaSyA24WeC7vPxSfdR4SYHiousM3YF4qmzVjs";
 var databaseUrl = process.env.MLAB_URI || "image-search";
 
 var app = express();
@@ -28,7 +28,7 @@ app.get("/api/imagesearch/:query", function (req, res) {
     var offset = req.query.offset;
 
     if (offset == null) {
-        offset = 10;
+        offset = 1;
     }
 
     var dataEntry = {
@@ -36,14 +36,14 @@ app.get("/api/imagesearch/:query", function (req, res) {
         when: moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
     }
 
-    var url = "https://www.googleapis.com/customsearch/v1?searchType=image&num=" + offset +"&key=" + apikey + "&cx=" + cx + "&q=" + query;
+    var url = "https://www.googleapis.com/customsearch/v1?searchType=image&start=" + offset +"&key=" + apikey + "&cx=" + cx + "&q=" + query;
 
     request(url, { json: true }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
 
             var results = [];
 
-            for (var i = 0; i < offset; i++) {
+            for (var i in body.items) {
                 results.push({
                     text: body.items[i].snippet,
                     image: body.items[i].link,
